@@ -83,12 +83,13 @@ function cardMaker({ avatar_url, name, login, location, html_url, followers, fol
   image.src = avatar_url
 
   nameElem.textContent = name
-  userName.textContent = login
-  loc.textContent = location
+  userName.textContent = `Username: ${login}`
+  loc.textContent = `Location: ${location}`
+  profileLink.textContent = 'GitHub Profile'
   profileLink.href = html_url
-  followersElem.textContent = followers
-  followingElem.textContent = following
-  bioElem.textContent = bio
+  followersElem.textContent = `Followers: ${followers}`
+  followingElem.textContent = `Following ${following}`
+  bioElem.textContent = `Bio: ${bio}`
 
   return topDiv
 }
