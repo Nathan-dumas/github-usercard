@@ -1,9 +1,14 @@
+import axios from 'axios'
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/nathan-dumas')
+  .then(res => {
+    const data = res.data
+  })
+  .catch(err => console.log(err))
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +33,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,8 +54,60 @@ const followersArray = [];
       </div>
     </div>
 */
+const entry = document.querySelector('.cards')
 
-/*
+function cardMaker({ avatar_url, name, login, location, html_url, followers, following, bio }) {
+  const topDiv = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const nameElem = document.createElement('h3')
+  const userName = document.createElement('p')
+  const loc = document.createElement('p')
+  const profile = document.createElement('p')
+  const profileLink = document.createElement('a')
+  const followersElem = document.createElement('p')
+  const followingElem = document.createElement('p')
+  const bioElem = document.createElement('p')
+
+  topDiv.append(image, cardInfo)
+
+  cardInfo.append(nameElem, userName, loc, profile, followersElem, followingElem, bioElem)
+
+  profile.appendChild(profileLink)
+
+  topDiv.className = 'card'
+  cardInfo.className = 'card-info'
+  nameElem.className = 'name'
+  userName.className = 'username'
+
+  image.src = avatar_url
+
+  nameElem.textContent = name
+  userName.textContent = `Username: ${login}`
+  loc.textContent = `Location: ${location}`
+  profileLink.textContent = 'GitHub Profile'
+  profileLink.href = html_url
+  followersElem.textContent = `Followers: ${followers}`
+  followingElem.textContent = `Following ${following}`
+  bioElem.textContent = `Bio: ${bio}`
+
+  return topDiv
+}
+
+axios.get('https://api.github.com/users/nathan-dumas')
+  .then(res => {
+    const data = res.data
+    entry.appendChild(cardMaker(data))
+  })
+  .catch(err => console.log(err))
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+    .then(res => {
+      entry.append(cardMaker(res.data))
+    })
+})
+  /*
   List of LS Instructors Github username's:
     tetondan
     dustinmyers
