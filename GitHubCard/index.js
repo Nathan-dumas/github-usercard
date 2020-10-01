@@ -33,7 +33,7 @@ axios.get('https://api.github.com/users/nathan-dumas')
     user, and adding that card to the DOM.
 */
 
-const followersArray = []
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -101,7 +101,13 @@ axios.get('https://api.github.com/users/nathan-dumas')
   })
   .catch(err => console.log(err))
 
-/*
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+    .then(res => {
+      entry.append(cardMaker(res.data))
+    })
+})
+  /*
   List of LS Instructors Github username's:
     tetondan
     dustinmyers
